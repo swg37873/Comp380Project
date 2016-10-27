@@ -32,5 +32,8 @@ public class Mover : MonoBehaviour {
 		Debug.Log (other.name);
 		Destroy (gameObject);
 	}
-	
+	void OnBecameInvisible()
+	{
+		Destroy (this.gameObject);
+	}
 }

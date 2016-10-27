@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ShipController : MonoBehaviour {
 
@@ -52,13 +53,20 @@ public class ShipController : MonoBehaviour {
 	{
 		if (other.tag == "Epro") 
 		{
+
 			Destroy (gameObject);
 			PlayExplosion ();
+			gameOver();
+
 		}
 	}
 	void PlayExplosion ()
 	{
 		GameObject explosion = (GameObject)Instantiate (ExplosionGo);
 		explosion.transform.position = transform.position;
+	}
+	void gameOver()
+	{
+		SceneManager.LoadScene ("GameOver");	
 	}
 }

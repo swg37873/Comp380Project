@@ -49,4 +49,9 @@ public class DroneAI : MonoBehaviour {
 		explosion.transform.position = transform.position;
 	}
 
+	void OnBecameInvisible()
+	{
+		Destroy (this.gameObject);
+	}
+
 }

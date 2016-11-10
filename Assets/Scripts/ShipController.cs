@@ -14,11 +14,23 @@ public class ShipController : MonoBehaviour {
 
 	public float fireRate;
 	public float nextFire;
+
+	public float health;
+	public AudioClip hurt;
+	public AudioClip explode;
+	 AudioSource hurtSource; //bad name I know.
+
+	public GameObject statusDisplay; //Refers to the gameobject attached to the HUD
+	private StatusText statusTextScript; //The script attached to the above object
+
 	// Use this for initialization
 
 
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D> ();
+		statusTextScript = statusDisplay.GetComponent ("StatusText") as StatusText;
+		hurtSource = GetComponent<AudioSource> ();
+		health = 3;
 	}
 	
 	// Update is called once per frame
@@ -41,11 +53,7 @@ public class ShipController : MonoBehaviour {
 		{
 			nextFire = Time.time + fireRate;
 			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
-
 		}
-
-
-		
 	
 	}
 
@@ -53,20 +61,52 @@ public class ShipController : MonoBehaviour {
 	{
 		if (other.tag == "Epro") 
 		{
-
-			Destroy (gameObject);
-			PlayExplosion ();
-			gameOver();
-
+			damageShip ();
 		}
 	}
+
+	void damageShip()
+	{
+		
+		// Debug.Log ("health: " + health);
+		health--;
+
+		if (health == 3) {
+			hurtSource.PlayOneShot (hurt, 1f);
+			statusTextScript.setGood ();
+		}
+		if (health == 2) {
+			hurtSource.PlayOneShot (hurt, 1f);
+			statusTextScript.setDamaged ();
+		}
+		if (health == 1) {
+			hurtSource.PlayOneShot (hurt, 1f);
+			statusTextScript.setCritical ();
+		}
+		if (health <= 0) {
+			hurtSource.PlayOneShot (explode, 1f);
+			shipExplode ();
+		}
+	}
+
 	void PlayExplosion ()
 	{
 		GameObject explosion = (GameObject)Instantiate (ExplosionGo);
 		explosion.transform.position = transform.position;
 	}
+
+	void shipExplode()
+	{
+		Destroy (gameObject);
+		PlayExplosion ();
+		gameOver();
+
+	}
+
 	void gameOver()
 	{
 		SceneManager.LoadScene ("GameOver");	
 	}
+
+
 }

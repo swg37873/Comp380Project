@@ -3,11 +3,14 @@ using System.Collections;
 
 public class DroneAI : MonoBehaviour {
 
+	public GameObject scoreDisplay; //Refers to the gameobject on the HUD
+	private Score scoreScript; //The script attached to the above object
 	public GameObject ExplosionGo;
 	public float speed = -15f;
 	// Use this for initialization
 	void Start () {
-		
+		scoreDisplay = GameObject.Find ("Score Display");
+		scoreScript = scoreDisplay.GetComponent ("Score") as Score;
 	}
 	
 	// Update is called once per frame
@@ -35,6 +38,8 @@ public class DroneAI : MonoBehaviour {
 	{
 		if (other.tag == "Ppro") 
 		{
+			
+			scoreScript.addScore (100);
 			Destroy (gameObject);
 			PlayExplosion ();
 		}

@@ -10,7 +10,9 @@ public class ShipController : MonoBehaviour {
 
 	public GameObject ExplosionGo;
 	public Transform shotSpawn;
-	public GameObject shot;
+	public GameObject shot1;
+	public GameObject shot2;
+	GameObject currentWeapon;
 
 	public float fireRate;
 	public float nextFire;
@@ -18,7 +20,7 @@ public class ShipController : MonoBehaviour {
 	public float health;
 	public AudioClip hurt;
 	public AudioClip explode;
-	 AudioSource hurtSource; //bad name I know.
+	AudioSource hurtSource; //bad name I know.
 
 	public GameObject statusDisplay; //Refers to the gameobject attached to the HUD
 	private StatusText statusTextScript; //The script attached to the above object
@@ -31,6 +33,7 @@ public class ShipController : MonoBehaviour {
 		statusTextScript = statusDisplay.GetComponent ("StatusText") as StatusText;
 		hurtSource = GetComponent<AudioSource> ();
 		health = 3;
+		currentWeapon = shot1;
 	}
 	
 	// Update is called once per frame
@@ -52,7 +55,7 @@ public class ShipController : MonoBehaviour {
 		if (Input.GetButton("Fire1") && Time.time > nextFire)
 		{
 			nextFire = Time.time + fireRate;
-			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+			Instantiate (currentWeapon, shotSpawn.position, shotSpawn.rotation);
 		}
 	
 	}
@@ -62,6 +65,15 @@ public class ShipController : MonoBehaviour {
 		if (other.tag == "Epro") 
 		{
 			damageShip ();
+		}
+			
+	}
+	void OnCollisionEnter2D ( Collision2D other)
+	{
+		if (other.gameObject.tag == "Power")
+		{
+			//Debug.Log (other.name);
+			currentWeapon = shot2;
 		}
 	}
 

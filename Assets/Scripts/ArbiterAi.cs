@@ -1,41 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DroneAI : MonoBehaviour {
+public class ArbiterAi : MonoBehaviour {
 
 	public GameObject ExplosionGo;
-	public float speed = -15f;
+
+	float xdesired;
+	Vector2 position;
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		//get the enemy current position
+		position = transform.position;
+		//desired x position
+		xdesired = position.x - 5.0f;
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
-		//get the enemy current position
-		Vector2 position = transform.position;
-		//compute the enemy new position
-		position = new Vector2 (position.x - speed * Time.deltaTime, position.y); 
-
-		//update the enemy position
-		transform.position = position;
-
+		
+		if(xdesired < position.x) 
+		{
+			//compute the enemy new position
+			//position = new Vector2 (position.x, position.y); 
+			position.x -= 0.1f;
+			//update the enemy position
+			transform.position = position;
+		}
 		//this is the bottom left point of the screen
 		Vector2 min = Camera.main.ViewportToWorldPoint ( new Vector2 (0,0));
 
-		//if the enemy went outside the screen on the bottom then destroy the enemy
-		if (transform.position.y < min.x) 
-		{
-			Destroy (gameObject);
-		}
-			
+
 	}
+
+
 	void OnTriggerEnter2D (Collider2D other)
 	{
 		if (other.tag == "Ppro") 
 		{
-			//Debug.Log (other.name);
 			Destroy (gameObject);
 			PlayExplosion ();
 		}

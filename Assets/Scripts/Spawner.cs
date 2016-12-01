@@ -3,7 +3,11 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour {
 
-	public GameObject Enemy;
+	public GameObject Enemy1;
+	public GameObject Enemy2;
+	public GameObject Enemy3;
+	public GameObject Enemy4;
+	GameObject currentEnemy;
 
 	public float maxSpawnRateInSeconds = 5f;
 	// Use this for initialization
@@ -27,7 +31,7 @@ public class Spawner : MonoBehaviour {
 		Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1,1));
 
 		//make a dude
-		GameObject anEnemy = (GameObject)Instantiate(Enemy);
+		GameObject anEnemy = (GameObject)Instantiate(Enemy1);
 		anEnemy.transform.position = new Vector2 (max.x, Random.Range(min.y, max.y));
 
 		//schedule when to spawn next enemy

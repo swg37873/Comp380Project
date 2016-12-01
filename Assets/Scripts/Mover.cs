@@ -29,7 +29,7 @@ public class Mover : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log (other.name);
+		//Debug.Log (other.name);
 		Destroy (gameObject);
 	}
 	void OnBecameInvisible()
